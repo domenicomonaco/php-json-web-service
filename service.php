@@ -12,7 +12,7 @@
     mysql_select_db("db_name", $connect) or die("Cannot select the DB");
 
     /* Grab the items from the DB */
-    $query = "SELECT column_1, column_2 FROM table_name WHERE columns_1 = $user_id ORDER BY ID DESC LIMIT $number_of_items";
+    $query = "SELECT column_1, column_2 FROM table_name WHERE column_1 = $user_id ORDER BY ID DESC LIMIT $number_of_items";
     $result = mysql_query($query, $connect) or die("Errant query: ".$query);
 
     /* Create one master array of the records */
