@@ -11,10 +11,6 @@
  *	"IDENTIFIER" => "SELECT * FROM <TABLE_NAME>.... ",
  * );
  *
- *
- * Forked from: 
- * 
- *
  */
 header("Content-type: application/json");
 
@@ -23,20 +19,14 @@ include("lib.inc");
 
 /* Retrive identifier of queryes, identifier is ID of array's query */
 $q = $_GET['q'];
-$annoaccademico = $_GET['annoaccademico'];
+
 /* Detect debug mode */
-//$debugMODE=($_GET['debug'] == '1' ? TRUE : FALSE);
+$debugMODE=($_GET['debug'] == '1' ? TRUE : FALSE);
 
 /* Queryes list with identifier */
 $querys = array(
-	"listamaterie" 			=> "SELECT * FROM Materie",
-	"listacorsodistudi" 	=> "SELECT * FROM CorsoDiStudi",
-	"listaalunni" 			=> "SELECT * FROM Alunni",
-	"listadocenti" 			=> "SELECT * FROM Docenti",
-
-	"listaedizionecorsi"    => "SELECT * FROM EdizioniCorsi",
-	"anniaccademici"    	=> "SELECT AnnoAccademico FROM EdizioniCorsi GROUP BY AnnoAccademico",
-	"edcorsoAnnox"    	    => "SELECT * FROM EdizioniCorsi WHERE AnnoAccademico=".$annoaccademico
+	"listofname" 			=> "SELECT * FROM Name",
+	"listofcity" 			=> "SELECT * FROM City",
 );
 
 /* make connection */
