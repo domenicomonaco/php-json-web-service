@@ -1,4 +1,9 @@
 <?php
+/**
+ * Developer Domenico Monaco - domenico.monaco@kiuz.it
+ * 
+ * Simple PHP service for fast prototipyng JSON from MySql Queries.
+ */
 
 function query_encode($mysqli, $query=null, $_DEBUGMODE=FALSE){
 
@@ -14,7 +19,6 @@ function query_encode($mysqli, $query=null, $_DEBUGMODE=FALSE){
 			"result" => FALSE,
 			"error" => mysqli_connect_error(),
 			"qinfo"	 => null);
-		//exit();
 	}else{
 		if ($result = $mysqli->query($query)) {
 			$information[] = 
@@ -29,7 +33,6 @@ function query_encode($mysqli, $query=null, $_DEBUGMODE=FALSE){
 			/* fetch associative array */
 			while ($row = $result->fetch_assoc()) {
 				$items[] = array("item" => $row);
-				//$items[] = $row;
 			}
 		}else{
 			$information[] = 
