@@ -1,7 +1,10 @@
-# PHP JSON Web Service
+# Simple PHP JSON Web Service 
+
+### Current Author
+Domenico Monaco - domenico.monaco@kiuz.it
 
 ### Summary
-A simple shell for creating a JSON web service using PHP.
+A simple shell for creating a JSON web service using PHP with data retrieved with MySql queries.
 
 ### Requirements
 + PHP 5.2+
@@ -12,14 +15,17 @@ A simple shell for creating a JSON web service using PHP.
 1. Change the `SELECT` statement to the query needed to fetch your data from the database.
 1. Modify the `$_GET` parameters and master array as needed.
 
-
 ### Example
 An example request would look like this:
 
 ```html
-http://example.com/service.php?user=2&num=10
+http://example.com/service.php?q=listofname
 ```
 
-### Documentation
-+ [Create a Basic Web Service Using PHP, MySQL, XML, and JSON](http://davidwalsh.name/web-service-php-mysql-xml-json)
-+ [json_encode on PHP.net](http://php.net/manual/en/function.json-encode.php)
+Where 'listofname' is identifier of query stored into code as:
+
+$query = array(
+			"listofname" => "SELECT * FROM name WHERE ....",
+			"listofcity" => "SELECT * FROM city WHERE ...",
+			...
+		);

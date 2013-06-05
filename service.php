@@ -1,34 +1,49 @@
 <?php
+/**
+ * Developer Domenico Monaco - domenico.monaco@kiuz.it
+ * 
+ * Simple PHP service for fast prototipyng JSON from MySql Queries.
+ * 
+ * http://<YOUR_DOMAIN>/service.php?q=<IDENTFIER_QUERY>&debug=<1|0>
+ * http://<YOUR_DOMAIN>/service.php?q=<IDENTFIER_QUERY>
+ * 
+ * $querys = array(
+ *	"IDENTIFIER" => "SELECT * FROM <TABLE_NAME>.... ",
+ * );
+ *
+ *
+ * Forked from: 
+ * 
+ *
+ */
+header("Content-type: application/json");
 
-  /* Require the user as the parameter */
-  if(isset($_GET["user"]) && intval($_GET["user"])) {
+include("db.conf");
+include("lib.inc");
 
-    /* Soak in the passed variable or set our own */
-    $number_of_items = isset($_GET["num"]) ? intval($_GET["num"]) : 10; // 10 is default
-    $user_id = intval($_GET["user"]); // no default
+/* Retrive identifier of queryes, identifier is ID of array's query */
+$q = $_GET['q'];
+$annoaccademico = $_GET['annoaccademico'];
+/* Detect debug mode */
+//$debugMODE=($_GET['debug'] == '1' ? TRUE : FALSE);
 
-    /* Connect to the DB */
-    $connect = mysql_connect("localhost", "username", "password") or die("Cannot connect to the DB");
-    mysql_select_db("db_name", $connect) or die("Cannot select the DB");
+/* Queryes list with identifier */
+$querys = array(
+	"listamaterie" 			=> "SELECT * FROM Materie",
+	"listacorsodistudi" 	=> "SELECT * FROM CorsoDiStudi",
+	"listaalunni" 			=> "SELECT * FROM Alunni",
+	"listadocenti" 			=> "SELECT * FROM Docenti",
 
-    /* Grab the items from the DB */
-    $query = "SELECT column_1, column_2 FROM table_name WHERE column_1 = $user_id ORDER BY ID DESC LIMIT $number_of_items";
-    $result = mysql_query($query, $connect) or die("Errant query: ".$query);
+	"listaedizionecorsi"    => "SELECT * FROM EdizioniCorsi",
+	"anniaccademici"    	=> "SELECT AnnoAccademico FROM EdizioniCorsi GROUP BY AnnoAccademico",
+	"edcorsoAnnox"    	    => "SELECT * FROM EdizioniCorsi WHERE AnnoAccademico=".$annoaccademico
+);
 
-    /* Create one master array of the records */
-    $items = array();
-    if(mysql_num_rows($result)) {
-      while($item = mysql_fetch_assoc($result)) {
-        $items[] = array("item" => $item);
-      }
-    }
+/* make connection */
+$mysqli = new mysqli($host, $user, $pass, $database);
 
-    /* Output in JSON format */
-    header("Content-type: application/json");
-    echo json_encode(array("items" => $items));
+/* Encode Json from array generated from selected query */
+echo json_encode(array("output" => query_encode($mysqli, $querys[$q],$debugMODE)));
 
-    /* Disconnect from the DB */
-    @mysql_close($connect);
-  }
-
+$mysqli->close();
 ?>
